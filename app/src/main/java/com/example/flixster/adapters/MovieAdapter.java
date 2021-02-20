@@ -1,13 +1,16 @@
 package com.example.flixster.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,8 +18,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.GranularRoundedCorners;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.example.flixster.DetailActivity;
 import com.example.flixster.R;
 import com.example.flixster.models.Movie;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -63,7 +69,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
     //    the ViewHolder is a representation of the row (item_movie) of the RecyclerView
     public class ViewHolder extends RecyclerView.ViewHolder{
-
+        RelativeLayout relativeLayout;
         TextView tvTitle;
         TextView tvOverview;
         ImageView ivPoster;
@@ -73,6 +79,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         // we get the layout from the View and assign it to our variables
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            relativeLayout = itemView.findViewById(R.id.item_movie);
             tvTitle = itemView.findViewById(R.id.tvTitle);
             tvOverview = itemView.findViewById(R.id.tvOverview);
             ivPoster = itemView.findViewById(R.id.ivPoster);
@@ -110,6 +117,26 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
             // can use GranularRoundedCorners to do each corner of the image
             // more down per view layout
             Glide.with(context).load(imageUrl).placeholder(R.drawable.ic_waiting).transform(new GranularRoundedCorners(20,20,20,20)).error(R.drawable.ic_movie_tickets).into(ivPoster);
+
+            // debug -> show toast when click the title
+            // use lambda expression rather than inner anonymous
+//            tvTitle.setOnClickListener(v -> Toast.makeText(context, movie.getTitle(), Toast.LENGTH_SHORT).show());
+
+//            1. register click listener on the entire container (row view)
+            relativeLayout.setOnClickListener((v) -> {
+//                Toast.makeText(context, movie.getTitle(), Toast.LENGTH_SHORT).show();
+                // intent
+//            2. navigate to a new activity
+//                create an intent from context to the class
+                Intent intent = new Intent(context, DetailActivity.class);
+
+//                pass data to the activity Key/value pair
+//                intent.putExtra("title", movie.getTitle());
+//                can also pass objects using parceler and wrapping the object
+                intent.putExtra("movie", Parcels.wrap(movie));
+//                show the activity
+                context.startActivity(intent);
+            });
 
         }
     }

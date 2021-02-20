@@ -30,7 +30,7 @@ import okhttp3.Headers;
 public class MainActivity extends AppCompatActivity {
 
     // URL for the now playing end-point with the API MovieDB
-    public static final String NOW_PLAYING_URL = "https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
+    public static final String NOW_PLAYING_URL = "https://api.themoviedb.org/3/movie/now_playing?api_key=%s";
     // Refer to this in our logs
     public static final String TAG = "MainActivity";
 
@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
 //        create instance for async call
         AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
         // get the data JSON format
-        asyncHttpClient.get(NOW_PLAYING_URL, new JsonHttpResponseHandler() {
+        asyncHttpClient.get(String.format(NOW_PLAYING_URL, BuildConfig.MOVIE_API_KEY), new JsonHttpResponseHandler() {
             // when data is received
             @Override
             public void onSuccess(int i, Headers headers, JSON json) {

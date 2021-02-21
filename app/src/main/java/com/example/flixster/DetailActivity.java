@@ -1,9 +1,11 @@
 package com.example.flixster;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -116,5 +118,16 @@ public class DetailActivity extends YouTubeBaseActivity {
             }
         });
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        // Respond to the action bar's Up/Home button
+        if (item.getItemId() == android.R.id.home) {
+            // allow back transition
+            finishAfterTransition();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

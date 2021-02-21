@@ -2,6 +2,8 @@
     <!-- Base application theme. -->
     <!--- hide action bar from the activity using the theme, hiding it in the Android overwrites our colors -->
     <style name="Theme.Flixster" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <!--  enable window content transitions, shared elements-->
+        <item name = "android:windowContentTransitions" >true</item>
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryDark">@color/purple_500</item>

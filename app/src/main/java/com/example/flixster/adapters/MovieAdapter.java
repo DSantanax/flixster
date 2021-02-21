@@ -1,5 +1,6 @@
 package com.example.flixster.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -13,12 +14,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.util.Pair;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.GranularRoundedCorners;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.flixster.DetailActivity;
+import com.example.flixster.MainActivity;
 import com.example.flixster.R;
 import com.example.flixster.models.Movie;
 
@@ -138,10 +142,24 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
 //                pass data to the activity Key/value pair
 //                intent.putExtra("title", movie.getTitle());
+
 //                can also pass objects using parceler and wrapping the object
                 intent.putExtra("movie", Parcels.wrap(movie));
-//                show the activity
-                context.startActivity(intent);
+                // For multiple shared elements use Pair (view, transitionName)
+                Pair<View, String> p1 = Pair.create((View) tvTitle, "movieTitle");
+                Pair<View, String> p2 = Pair.create((View) tvOverview, "overViewText");
+                // Call for shared transition, first param needs activity cast it
+                // to the context (current), Views/Pairs, if View use elemName)
+//                ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
+//                        (Activity) context, (View)tvTitle, "movieTitle"
+//                );
+                // Safe Varargs
+                @SuppressWarnings("unchecked")
+                ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        (Activity) context, p1, p2
+                );
+//                show the activity, with shared elements
+                context.startActivity(intent, optionsCompat.toBundle());
             });
 
         }

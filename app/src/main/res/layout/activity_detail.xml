@@ -12,14 +12,17 @@
         android:id="@+id/player"
         android:layout_width="match_parent"
         android:layout_height="250dp" />
-
+<!--assigned transition name for shared elem
+with item_movie -->
     <TextView
         android:id="@+id/tvTitleDetail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:textSize="30sp"
-        tools:text="It Chapter Two" />
+        tools:text="It Chapter Two"
+        android:transitionName="movieTitle"
+        />
 
     <RatingBar
         android:id="@+id/ratingBarDetail"
@@ -51,5 +54,7 @@
         android:paddingRight="15dp"
         android:paddingBottom="5dp"
         android:textSize="16sp"
-        tools:text="Deputy Sheriff Joe &quot;Deke&quot; Deacon joins forces with Sgt. Jim Baxter to search for a serial killer who's terrorizing Los Angeles. As they track the culprit, Baxter is unaware that the investigation is dredging up echoes of Deke's past, uncovering disturbing secrets that could threaten more than his case." />
+        tools:text="Deputy Sheriff Joe &quot;Deke&quot; Deacon joins forces with Sgt. Jim Baxter to search for a serial killer who's terrorizing Los Angeles. As they track the culprit, Baxter is unaware that the investigation is dredging up echoes of Deke's past, uncovering disturbing secrets that could threaten more than his case."
+        android:transitionName="overViewText"
+        />
 </LinearLayout>

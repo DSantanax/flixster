@@ -1,7 +1,9 @@
 package com.example.flixster;
 
 import androidx.annotation.NonNull;
+// no longer used since we are extending YTBaseAct.
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
+import com.example.flixster.databinding.ActivityDetailBinding;
 import com.example.flixster.models.Movie;
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
@@ -33,19 +36,22 @@ public class DetailActivity extends YouTubeBaseActivity {
     TextView tvTitleDetail;
     TextView tvOverviewDetail;
     RatingBar ratingBarDetail;
-
+    // reference YTPlayerView
     YouTubePlayerView youTubePlayerView;
+    // data binding
+    ActivityDetailBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail);
+        // for binding we pass the current activity, and layout to refer too
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
 
 //        get the views
-        tvTitleDetail = findViewById(R.id.tvTitleDetail);
-        tvOverviewDetail = findViewById(R.id.tvOverviewDetail);
-        ratingBarDetail = findViewById(R.id.ratingBarDetail);
-        youTubePlayerView = findViewById(R.id.player);
+        tvTitleDetail = binding.tvTitleDetail;
+        tvOverviewDetail = binding.tvOverviewDetail;
+        ratingBarDetail = binding.ratingBarDetail;
+        youTubePlayerView = binding.player;
 
         // receive the data (testing)
 //        String title = getIntent().getStringExtra("movie");
@@ -76,9 +82,9 @@ public class DetailActivity extends YouTubeBaseActivity {
                         // can add a placeholder image instead (background)
                         return;
                     }
-                        // get the first video, we can also check if the site is YT
-                        String youtube_key = results.getJSONObject(0).getString("key");
-                        initializeYoutube(youtube_key);
+                    // get the first video, we can also check if the site is YT
+                    String youtube_key = results.getJSONObject(0).getString("key");
+                    initializeYoutube(youtube_key);
 //                        log key
 //                        Log.d("DetailActivity", youtube_key);
                 } catch (JSONException e) {
@@ -87,7 +93,8 @@ public class DetailActivity extends YouTubeBaseActivity {
                 }
 
             }
-//            method to call yt player
+
+            //            method to call yt player
             private void initializeYoutube(final String youtube_key) {
 //        create a yt video (key, listener)
                 youTubePlayerView.initialize(BuildConfig.YOUTUBE_API_KEY, new YouTubePlayer.OnInitializedListener() {
@@ -96,10 +103,9 @@ public class DetailActivity extends YouTubeBaseActivity {
                     public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
                         Log.d("Detail", "onSuccess");
 //                auto play the video ( video ID)
-                        if(movie.getMovieRating() > 5){
+                        if (movie.getMovieRating() > 5) {
                             youTubePlayer.loadVideo(youtube_key);
-                        }
-                        else {
+                        } else {
                             // user plays the video
                             youTubePlayer.cueVideo(youtube_key);
                         }

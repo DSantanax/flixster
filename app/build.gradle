@@ -11,6 +11,8 @@ apiKeyProperties.load(new FileInputStream(apiKeyPropertiesFile))
 android {
     compileSdkVersion 29
     buildToolsVersion "30.0.2"
+//    add data binding
+    dataBinding.enabled = true
 
     defaultConfig {
         applicationId "com.example.flixster"

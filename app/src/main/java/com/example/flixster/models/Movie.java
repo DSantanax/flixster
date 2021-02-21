@@ -11,7 +11,7 @@ import java.util.List;
 // POJO - plain old java object
 // encapsulate the movie data
 
-//add annotation to show its a parcel
+//add annotation to show its a parcel, used for Intents
 @Parcel
 public class Movie {
     // initially a relative path
@@ -23,7 +23,7 @@ public class Movie {
     String releaseDate;
     int movieId;
 
-    public Movie(){
+    public Movie() {
         // empty constructor needed for the Parceler library
     }
 
@@ -57,6 +57,7 @@ public class Movie {
         // the correct way of doing this is fetching all the sizes appending it to the base
         // URL, then adding it to the posterPath
     }
+
     // base URL + relative URL = full path endpoint for the image
     public String getBdPath() {
         return String.format("https://image.tmdb.org/t/p/w342%s", bdPath);
@@ -70,10 +71,13 @@ public class Movie {
         return overView;
     }
 
-    public double getMovieRating(){
+    public double getMovieRating() {
         return movieRating;
     }
-    public String getReleaseDate() {return releaseDate; }
+
+    public String getReleaseDate() {
+        return releaseDate;
+    }
 
     public int getMovieId() {
         return movieId;

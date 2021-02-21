@@ -16,6 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.util.Pair;
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -24,6 +25,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.flixster.DetailActivity;
 import com.example.flixster.MainActivity;
 import com.example.flixster.R;
+import com.example.flixster.databinding.ItemMovieBinding;
 import com.example.flixster.models.Movie;
 
 import org.parceler.Parcels;
@@ -48,10 +50,18 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         Log.d("MovieAdapter", "onCreateViewHolder");
+
         // inflate the item_movie XML, parent - ViewGroup, false not attaching to root
-        View view = LayoutInflater.from(context).inflate(R.layout.item_movie, parent, false);
+        // View view = LayoutInflater.from(context).inflate(R.layout.item_movie, parent, false);
+
+        // data binding way
+        // inflate the ViewGroup -> then bind
+        // or .from(context)
+        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+        ItemMovieBinding movieBinding = ItemMovieBinding.inflate(layoutInflater, parent, false);
+
         // return wrapper around the ViewHolder, which adds the data
-        return new ViewHolder(view);
+        return new ViewHolder(movieBinding);
     }
 
     // populate the data through the ViewHolder
@@ -80,25 +90,31 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         TextView tvRating;
         TextView tvReleaseDate;
         ImageView ivOverlay;
+        // not necessary
+        ItemMovieBinding binding;
 
         // we get the layout from the View and assign it to our variables
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            relativeLayout = itemView.findViewById(R.id.item_movie);
-            tvTitle = itemView.findViewById(R.id.tvTitle);
-            tvOverview = itemView.findViewById(R.id.tvOverview);
-            ivPoster = itemView.findViewById(R.id.ivPoster);
-            tvRating = itemView.findViewById(R.id.tvRating);
-            tvReleaseDate = itemView.findViewById(R.id.tvDate);
-            ivOverlay = itemView.findViewById(R.id.ivOverlay);
+        public ViewHolder(@NonNull ItemMovieBinding movieBinding) {
+            // getRoot() calls the binding's view
+            super(movieBinding.getRoot());
+            binding = movieBinding;
+            relativeLayout = movieBinding.itemMovie;
+            tvTitle = movieBinding.tvTitle;
+            tvOverview = movieBinding.tvOverview;
+            ivPoster = movieBinding.ivPoster;
+            tvRating = movieBinding.tvRating;
+            tvReleaseDate = movieBinding.tvDate;
+            ivOverlay = movieBinding.ivOverlay;
         }
 
         // set the data to the layouts
         public void bind(Movie movie) {
+            // can do this instead with binding
+            // binding.tvTitle.setText(movie.getTitle());
+
             // load the text
             tvTitle.setText(movie.getTitle());
             tvOverview.setText(movie.getOverView());
-            // TODO add resource or add placeholder instead
             tvRating.setText(String.format("Rating: %s", movie.getMovieRating()));
             tvReleaseDate.setText(String.format("Release Date: %s", movie.getReleaseDate()));
             // if the movie is not popular hide the image view overlay YT icon (won't be played immediately)
@@ -132,33 +148,36 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
             // use lambda expression rather than inner anonymous
 //            tvTitle.setOnClickListener(v -> Toast.makeText(context, movie.getTitle(), Toast.LENGTH_SHORT).show());
 
-//            1. register click listener on the entire container (row view)
+            // 1. register click listener on the entire container (row view)
             relativeLayout.setOnClickListener((v) -> {
-//                Toast.makeText(context, movie.getTitle(), Toast.LENGTH_SHORT).show();
+                // Toast.makeText(context, movie.getTitle(), Toast.LENGTH_SHORT).show();
                 // intent
-//            2. navigate to a new activity
-//                create an intent from context to the class
+                // 2. navigate to a new activity
+                // create an intent from context to the class
                 Intent intent = new Intent(context, DetailActivity.class);
 
-//                pass data to the activity Key/value pair
-//                intent.putExtra("title", movie.getTitle());
+                // pass data to the activity Key/value pair
+                // intent.putExtra("title", movie.getTitle());
 
-//                can also pass objects using parceler and wrapping the object
+                // can also pass objects using parceler and wrapping the object
                 intent.putExtra("movie", Parcels.wrap(movie));
                 // For multiple shared elements use Pair (view, transitionName)
                 Pair<View, String> p1 = Pair.create((View) tvTitle, "movieTitle");
                 Pair<View, String> p2 = Pair.create((View) tvOverview, "overViewText");
+
                 // Call for shared transition, first param needs activity cast it
                 // to the context (current), Views/Pairs, if View use elemName)
+
 //                ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
 //                        (Activity) context, (View)tvTitle, "movieTitle"
 //                );
+
                 // Safe Varargs
                 @SuppressWarnings("unchecked")
                 ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
                         (Activity) context, p1, p2
                 );
-//                show the activity, with shared elements
+                // show the activity, with shared elements
                 context.startActivity(intent, optionsCompat.toBundle());
             });
 

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<ScrollView
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -42,7 +43,7 @@
         android:paddingStart="5dp"
         android:paddingTop="5dp"
         android:paddingEnd="15dp"
-        android:text="Synopsis:"
+        android:text="@string/synopsis"
         android:textAlignment="viewStart"
         android:textSize="20sp" />
 
@@ -60,3 +61,4 @@
         />
 </LinearLayout>
 </ScrollView>
+</layout>

@@ -8,13 +8,27 @@
     android:layout_marginTop="5dp"
     app:layout_goneMarginTop="5dp"
     >
-
+<RelativeLayout
+    android:id="@+id/rlOverlayLand"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    >
     <ImageView
         android:id="@+id/ivPoster"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
-
         tools:srcCompat="@tools:sample/avatars" />
+    <!--    image overlay within the relative layout -->
+    <ImageView
+        android:id="@+id/ivOverlay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:elevation="10dp"
+        android:layout_centerInParent="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_youtube_icon" />
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/tvTitle"
@@ -23,7 +37,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="5dp"
         android:layout_marginTop="0dp"
-        android:layout_toEndOf="@+id/ivPoster"
+        android:layout_toEndOf="@+id/rlOverlayLand"
         android:textAlignment="center"
         android:textSize="24sp"
         tools:text="Wonder Woman 1984" />
@@ -36,7 +50,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
-        android:layout_toEndOf="@+id/ivPoster"
+        android:layout_toEndOf="@+id/rlOverlayLand"
         tools:text="Wonder Woman comes into conflict with the Soviet Union during the Cold War in the 1980s and finds a formidable foe by the name of the Cheetah." />
 
     <TextView
@@ -46,7 +60,7 @@
         android:layout_below="@+id/tvTitle"
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
-        android:layout_toEndOf="@+id/ivPoster"
+        android:layout_toEndOf="@+id/rlOverlayLand"
         android:textAlignment="center"
         tools:text="Release Date: 2020-12-16" />
 

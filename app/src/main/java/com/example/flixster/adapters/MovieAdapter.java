@@ -75,6 +75,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         ImageView ivPoster;
         TextView tvRating;
         TextView tvReleaseDate;
+        ImageView ivOverlay;
 
         // we get the layout from the View and assign it to our variables
         public ViewHolder(@NonNull View itemView) {
@@ -85,6 +86,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
             ivPoster = itemView.findViewById(R.id.ivPoster);
             tvRating = itemView.findViewById(R.id.tvRating);
             tvReleaseDate = itemView.findViewById(R.id.tvDate);
+            ivOverlay = itemView.findViewById(R.id.ivOverlay);
         }
 
         // set the data to the layouts
@@ -95,6 +97,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
             // TODO add resource or add placeholder instead
             tvRating.setText(String.format("Rating: %s", movie.getMovieRating()));
             tvReleaseDate.setText(String.format("Release Date: %s", movie.getReleaseDate()));
+            // if the movie is not popular hide the image view overlay YT icon (won't be played immediately)
+            if(movie.getMovieRating() < 5){
+                ivOverlay.setVisibility(View.INVISIBLE);
+            }
             // in some cases we would want to load the backdrop path instead
             // when in landscape mode
             String imageUrl;
